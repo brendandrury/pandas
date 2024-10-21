@@ -34,6 +34,7 @@ from numpydoc.validate import (
 )
 
 import pandas
+from security import safe_command
 
 # With template backend, matplotlib plots nothing
 matplotlib.use("template")
@@ -175,7 +176,7 @@ class PandasDocstring(Docstring):
             file.write(content)
             file.flush()
             cmd = ["python", "-m", "flake8", "--quiet", "--statistics", file.name]
-            response = subprocess.run(cmd, capture_output=True, text=True)
+            response = safe_command.run(subprocess.run, cmd, capture_output=True, text=True)
             stdout = response.stdout
             stdout = stdout.replace(file.name, "")
             messages = stdout.strip("\n")
