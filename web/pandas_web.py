@@ -148,7 +148,7 @@ class Preprocessors:
         """
         context["maintainers"]["people"] = []
         for user in context["maintainers"]["active"]:
-            resp = requests.get(f"https://api.github.com/users/{user}")
+            resp = requests.get(f"https://api.github.com/users/{user}", timeout=60)
             if context["ignore_io_errors"] and resp.status_code == 403:
                 return context
             resp.raise_for_status()
@@ -160,7 +160,7 @@ class Preprocessors:
         context["releases"] = []
 
         github_repo_url = context["main"]["github_repo_url"]
-        resp = requests.get(f"https://api.github.com/repos/{github_repo_url}/releases")
+        resp = requests.get(f"https://api.github.com/repos/{github_repo_url}/releases", timeout=60)
         if context["ignore_io_errors"] and resp.status_code == 403:
             return context
         resp.raise_for_status()
