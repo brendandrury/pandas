@@ -3,7 +3,6 @@ from __future__ import annotations
 from contextlib import contextmanager
 import os
 from pathlib import Path
-import random
 from shutil import rmtree
 import string
 import tempfile
@@ -15,6 +14,7 @@ from typing import (
 import numpy as np
 
 from pandas.io.common import get_handle
+import secrets
 
 
 @contextmanager
@@ -106,7 +106,7 @@ def ensure_clean(filename=None, return_filelike: bool = False, **kwargs: Any):
     if filename is None:
         filename = ""
     filename = (
-        "".join(random.choices(string.ascii_letters + string.digits, k=30)) + filename
+        "".join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=30)) + filename
     )
     path = folder / filename
 
