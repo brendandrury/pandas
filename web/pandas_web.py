@@ -37,8 +37,8 @@ import typing
 import feedparser
 import jinja2
 import markdown
-import requests
 import yaml
+from security import safe_requests
 
 
 class Preprocessors:
@@ -148,7 +148,7 @@ class Preprocessors:
         """
         context["maintainers"]["people"] = []
         for user in context["maintainers"]["active"]:
-            resp = requests.get(f"https://api.github.com/users/{user}")
+            resp = safe_requests.get(f"https://api.github.com/users/{user}")
             if context["ignore_io_errors"] and resp.status_code == 403:
                 return context
             resp.raise_for_status()
@@ -160,7 +160,7 @@ class Preprocessors:
         context["releases"] = []
 
         github_repo_url = context["main"]["github_repo_url"]
-        resp = requests.get(f"https://api.github.com/repos/{github_repo_url}/releases")
+        resp = safe_requests.get(f"https://api.github.com/repos/{github_repo_url}/releases")
         if context["ignore_io_errors"] and resp.status_code == 403:
             return context
         resp.raise_for_status()
