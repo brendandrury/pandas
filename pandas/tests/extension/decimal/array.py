@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import decimal
 import numbers
-import random
 import sys
 
 import numpy as np
@@ -31,6 +30,7 @@ from pandas.core.arrays import (
     ExtensionScalarOpsMixin,
 )
 from pandas.core.indexers import check_array_indexer
+import secrets
 
 
 @register_extension_dtype
@@ -255,7 +255,7 @@ def to_decimal(values, context=None):
 
 
 def make_data():
-    return [decimal.Decimal(random.random()) for _ in range(100)]
+    return [decimal.Decimal(secrets.SystemRandom().random()) for _ in range(100)]
 
 
 DecimalArray._add_arithmetic_ops()
